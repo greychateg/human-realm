@@ -1,0 +1,17 @@
+{
+  "name": "人间修真模拟器",
+  "short_name": "修真",
+  "description": "基于王阳明心学的自我修行工具",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF9F6",
+  "theme_color": "#FAF9F6",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
