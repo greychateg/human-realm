@@ -12,8 +12,7 @@
 <meta property="og:description" content="基于王阳明心学·传习录的自我修行工具">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon.svg">
-<!-- Supabase SDK (uncomment to enable cloud sync & leaderboard)
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 /* fonts: system fallback for China access */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -942,7 +941,7 @@ function td(){return new Date().toISOString().slice(0,10)}
 function fT(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
 function getMult(){return Math.max(0,(100-S.demon)/100)}
 function load(){try{var r=JSON.parse(localStorage.getItem('xz7'));if(!r)return;S.xp=r.xp||0;S.total=r.total||0;S.log=r.log||[];S.demon=r.demon||0;S.demonTs=r.demonTs||Date.now();S.cwCount=r.cwCount||{};var t=td();if(r.lastDate===t){S.done=r.done||[];S.streak=r.streak||0;S.readQ=r.readQ||0;S.doneChl=r.doneChl||[];S.modCnt=r.modCnt||{}}else{var y=new Date(Date.now()-864e5).toISOString().slice(0,10);S.done=[];S.doneChl=[];S.readQ=0;S.modCnt={};S.streak=r.lastDate===y?(r.streak||0):0}S.lastDate=r.lastDate}catch(e){}decayD()}
-function save(){S.lastDate=td();try{localStorage.setItem('xz7',JSON.stringify(S))}catch(e){}}
+function save(){S.lastDate=td();try{var d=JSON.stringify(S);localStorage.setItem('xz7',d);localStorage.setItem('xz7_backup',d)}catch(e){}}
 function decayD(){if(S.demon<=0){S.demon=0;return}var h=(Date.now()-S.demonTs)/36e5;S.demon=Math.max(0,S.demon-h*(100/72));S.demonTs=Date.now()}
 function addLog(type,text,color){S.log.push({ts:Date.now(),type:type,text:text,color:color||'jade'});if(S.log.length>300)S.log=S.log.slice(-200);save()}
 function gainXp(base){var m=getMult(),act=Math.round(base*m),old=getLvl(S.xp);S.xp+=act;var nw=getLvl(S.xp);save();if(!nw.max&&(nw.ri!==old.ri||nw.li!==old.li))showLvl(nw);return act}
@@ -1563,7 +1562,11 @@ function changeName(){
 }
 
 // INIT
-if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(regs){regs.forEach(function(r){r.unregister()})});}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
+// Save backup protection: backup to secondary key on every load
+try{var _bk=localStorage.getItem('xz7');if(_bk)localStorage.setItem('xz7_backup',_bk)}catch(e){}
+// Auto-restore: if main save is missing but backup exists, restore it
+try{if(!localStorage.getItem('xz7')&&localStorage.getItem('xz7_backup')){localStorage.setItem('xz7',localStorage.getItem('xz7_backup'));console.log('存档已从备份恢复')}}catch(e){}
 try{load()}catch(e){}
 jyIdx=Math.floor(Math.random()*JINJU.length);
 addLog('系统','打开修真模拟器');save();
