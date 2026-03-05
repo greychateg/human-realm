@@ -1563,7 +1563,7 @@ function changeName(){
 }
 
 // INIT
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){})}
+if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(regs){regs.forEach(function(r){r.unregister()})});}
 try{load()}catch(e){}
 jyIdx=Math.floor(Math.random()*JINJU.length);
 addLog('系统','打开修真模拟器');save();
