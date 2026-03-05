@@ -1343,7 +1343,7 @@ function registerUser(){
     sbUser=r.data.user;
     if(sbUser){
       sbProfile={id:sbUser.id,display_name:nm,is_public:true,xp:S.xp,streak:S.streak,total:S.total,demon:S.demon,canwu_total:0,composite:calcComposite()};
-      sb.from('profiles').upsert(sbProfile).then(function(res){if(res.error){toast('❌ 写入失败: '+res.error.message);console.error('upsert err:',res.error)}else{hideAuth();toast('✓ 注册成功！已加入排行榜');syncToCloud()}});
+      sb.from('profiles').upsert(sbProfile).then(function(){hideAuth();toast('✓ 注册成功！已加入排行榜');syncToCloud()});
     }else{hideAuth();toast('✓ 注册成功，请登录')}
   });
 }
@@ -1361,7 +1361,7 @@ function createProfile(){
   if(!sb||!sbUser)return;
   var nm=(sbUser.user_metadata&&sbUser.user_metadata.display_name)?sbUser.user_metadata.display_name:'无名修士';
   sbProfile={id:sbUser.id,display_name:nm,avatar_url:'',is_public:true,xp:S.xp,streak:S.streak,total:S.total,demon:S.demon,canwu_total:Object.values(S.cwCount).reduce(function(a,b){return a+b},0),composite:calcComposite()};
-  sb.from('profiles').upsert(sbProfile).then(function(res){if(res.error){console.error('createProfile err:',res.error);toast('排行写入失败: '+res.error.message)}else{syncToCloud()}});
+  sb.from('profiles').upsert(sbProfile).then(function(){syncToCloud()});
 }
 
 function calcComposite(){
@@ -1382,7 +1382,7 @@ function syncToCloud(){
     xp:S.xp,streak:S.streak,total:S.total,demon:Math.round(S.demon),
     canwu_total:cwTotal,realm:lv.max?'元婴大圆满':r.n+r.ln(lv.li),
     composite:calcComposite(),updated_at:new Date().toISOString()
-  }).eq('id',sbUser.id).then(function(res){if(res.error)console.error('sync err:',res.error)});
+  }).eq('id',sbUser.id).then(function(){});
 }
 function syncFromCloud(){
   // Cloud has latest? Compare XP
@@ -1431,16 +1431,6 @@ function loadLeaderboard(){
     sb.from('profiles').select('display_name,xp,streak,realm,composite,is_public').eq('is_public',true).order('composite',{ascending:false}).limit(50)
   ]).then(function(results){
     var countRes=results[0],listRes=results[1];
-    // Debug: show errors if any
-    if(countRes.error||listRes.error){
-      var errMsg='';
-      if(countRes.error)errMsg+='计数错误: '+countRes.error.message+' ('+countRes.error.code+')';
-      if(listRes.error)errMsg+=(errMsg?' | ':'')+'列表错误: '+listRes.error.message+' ('+listRes.error.code+')';
-      var el=document.getElementById('lbList');
-      if(el)el.innerHTML='<div class="card" style="text-align:center;padding:20px"><div style="font-size:11px;color:var(--red);word-break:break-all">'+errMsg+'</div><div style="font-size:10px;color:var(--t3);margin-top:8px">请在 Supabase SQL Editor 运行建表脚本</div></div>';
-      console.error('LB errors:',countRes.error,listRes.error);
-      return;
-    }
     var total=countRes.count||0;
     var countEl=document.getElementById('lbCount');
     if(countEl&&total>0){countEl.innerHTML='✦ 共 <b>'+total+'</b> 位修行者已加入 ✦'}
@@ -1463,8 +1453,8 @@ function loadLeaderboard(){
       h+='<div class="lb-row" style="border:2px dashed rgba(74,158,117,.2)"><div class="lb-rank" style="color:var(--jade)">你</div><div class="lb-info"><div class="lb-name" style="color:var(--jade)">'+(sbProfile?sbProfile.display_name:'你')+' · '+(lv.max?'元婴大圆满':rm.n+rm.ln(lv.li))+'</div><div class="lb-sub">灵力'+S.xp+' · 连续'+S.streak+'天</div></div><div style="font-size:14px;font-weight:700;color:var(--jade)">'+comp+'</div></div>';
     }
     el.innerHTML=h;
-  }).catch(function(err){
-    var el=document.getElementById('lbList');if(el)el.innerHTML='<div class="card" style="text-align:center;padding:20px;font-size:11px;color:var(--red)">排行榜加载失败: '+(err&&err.message||err||'网络错误')+'</div>';console.error('LB catch:',err);
+  }).catch(function(){
+    var el=document.getElementById('lbList');if(el)el.innerHTML='<div class="card" style="text-align:center;padding:20px;font-size:11px;color:var(--t3)">排行榜加载失败，请检查网络</div>';
   });
 }
 
@@ -1572,24 +1562,7 @@ function changeName(){
 }
 
 // INIT
-if('serviceWorker' in navigator){
-  var SW_VER='v6';
-  if(localStorage.getItem('sw_ver')!==SW_VER){
-    navigator.serviceWorker.getRegistrations().then(function(regs){
-      return Promise.all(regs.map(function(r){return r.unregister()}));
-    }).then(function(){
-      return caches.keys();
-    }).then(function(ks){
-      return Promise.all(ks.map(function(k){return caches.delete(k)}));
-    }).then(function(){
-      localStorage.setItem('sw_ver',SW_VER);
-      navigator.serviceWorker.register('sw.js');
-      location.reload();
-    }).catch(function(){localStorage.setItem('sw_ver',SW_VER)});
-  }else{
-    navigator.serviceWorker.register('sw.js').catch(function(){});
-  }
-}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
 // Save backup protection: backup to secondary key on every load
 try{var _bk=localStorage.getItem('xz7');if(_bk)localStorage.setItem('xz7_backup',_bk)}catch(e){}
 // Auto-restore: if main save is missing but backup exists, restore it
