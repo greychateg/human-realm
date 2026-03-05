@@ -838,13 +838,13 @@ var RI=['🌱','⚡','🔮','👁'];
 function getLvl(xp){var r=xp;for(var i=0;i<RM.length;i++)for(var j=0;j<RM[i].l;j++){if(r<RM[i].xp[j])return{ri:i,li:j,c:r,n:RM[i].xp[j]};r-=RM[i].xp[j]}return{ri:3,li:3,c:0,n:1,max:1}}
 
 var TECH=[
-{id:'tunna',ic:'🌬',nm:'吐纳术',sub:'调息·★',clr:'#1a4038',acc:'#5cb88a',xp:15,aud:1,steps:[{t:'breathe',l:'吐纳90秒',d:'吸4秒→屏4秒→呼6秒',dur:90},{t:'journal',l:'觉察',p:['此刻心境？','今日最重要之事？']}]},
-{id:'lianxin',ic:'🔥',nm:'炼心术',sub:'觉察·★★',clr:'#3d2a1e',acc:'#d4956a',xp:18,aud:1,steps:[{t:'bodyscan',l:'内视',d:'不对抗只观照',z:['头顶','眉心','喉咙','胸口','上腹','下腹','双手','双脚'],dur:80},{t:'journal',l:'炼化',p:['触发事件？','自动念头？','事实还是幻相？']}]},
-{id:'mingduan',ic:'⚔',nm:'明断术',sub:'果决·★★',clr:'#1e2d4a',acc:'#6a8fd4',xp:15,aud:0,steps:[{t:'journal',l:'推演',p:['今日可能抉择？','若FOMO升起如何？','最坏结果能承受吗？']}]},
-{id:'guben',ic:'💎',nm:'固本术',sub:'接纳·★',clr:'#3a1e4a',acc:'#b06ad4',xp:12,aud:0,steps:[{t:'journal',l:'固本',p:['今日做得不错的3件事？','感恩一人一事？']}]},
-{id:'ningshen',ic:'🎯',nm:'凝神术',sub:'入定·★★★',clr:'#1a3a2e',acc:'#4aad78',xp:25,aud:1,steps:[{t:'journal',l:'立意',p:['25分钟要完成什么？']},{t:'timer',l:'入定25分',d:'心无旁骛',dur:1500}]},
-{id:'shengcha',ic:'🌙',nm:'省察术',sub:'暮省·★★',clr:'#1e2e3e',acc:'#6a9abd',xp:20,aud:1,steps:[{t:'journal',l:'暮省',p:['今日最大收获？','被心魔劫持了吗？','若重来会如何？']},{t:'score',l:'评分',cats:['情绪稳定','决策质量','专注程度','自我接纳','行动力']}]},
-{id:'gewu',ic:'📜',nm:'格物术',sub:'知行·★★★',clr:'#2a3a1e',acc:'#8ab85c',xp:22,aud:0,steps:[{t:'journal',l:'格物',p:['今日一个念头/冲动是什么？','这个念头从何而来？是恐惧、贪婪还是虚荣？','良知告诉你的正确做法是什么？','你实际做了什么？知行是否合一？']}]}
+{id:'tunna',ic:'🌬',nm:'吐纳术',sub:'调息·★',desc:'每日开场 · 稳定心神基础',clr:'#1a4038',acc:'#5cb88a',xp:15,aud:1,steps:[{t:'breathe',l:'吐纳90秒',d:'吸4秒→屏4秒→呼6秒',dur:90},{t:'quicklog',l:'觉察',items:[{q:'此刻心境',opts:['平静','愉悦','疲惫','焦虑','烦躁','专注','空白'],radio:true},{q:'今日最重要之事',opts:['工作推进','健康身体','人际关系','学习成长','财务规划','自我修炼'],radio:false,free:true,placeholder:'或手动填写…'}]}]},
+{id:'lianxin',ic:'🔥',nm:'炼心术',sub:'觉察·★★',desc:'身体扫描 · 不被情绪劫持',clr:'#3d2a1e',acc:'#d4956a',xp:18,aud:1,steps:[{t:'bodyscan',l:'内视',d:'不对抗只观照，每部位约37秒',z:['头顶','眉心','喉咙','胸口','上腹','下腹','双手','双脚'],dur:300},{t:'quicklog',l:'炼化',items:[{q:'触发事件',opts:['工作压力','社交摩擦','财务波动','身体不适','无聊空虚','外界刺激'],free:true,placeholder:'或描述…'},{q:'自动念头',opts:['想逃避','觉得委屈','担忧未来','自我否定','羡慕嫉妒','贪婪冲动'],free:true,placeholder:'或描述…'},{q:'事实或幻相？',opts:['这是事实','更像幻相','两者混合'],radio:true}]}]},
+{id:'mingduan',ic:'⚔',nm:'明断术',sub:'复盘·★★',desc:'事后复盘 · 解剖一次决断',clr:'#1e2d4a',acc:'#6a8fd4',xp:15,aud:0,steps:[{t:'quicklog',l:'定事',items:[{q:'复盘哪类决断？',opts:['交易入场','交易离场','加减仓位','止损放弃','重要取舍','人际决定'],radio:true,free:true,placeholder:'或简述这个决断…'},{q:'执行时的心态',opts:['清醒冷静','略有犹豫','FOMO驱动','恐惧驱动','跟风冲动','凭直觉'],radio:true}]},{t:'journal',l:'格心',p:['这个决断的原始动机是什么？是良知还是私欲？','执行过程中心魔有没有介入？什么时刻？','结果如何？下次同类情况，你想怎么做？']}]},
+{id:'guben',ic:'💎',nm:'固本术',sub:'归本·★',desc:'随时可用 · 散乱时重新锚定',clr:'#3a1e4a',acc:'#b06ad4',xp:12,aud:0,steps:[{t:'quicklog',l:'观心',items:[{q:'此刻状态',opts:['散乱焦虑','被情绪带走','空洞无力','还算清醒','需要重新聚焦'],radio:true}]},{t:'journal',l:'归本',p:['我的核心志向是什么？（用一句话写出来）','此刻，我是否活在这个志向里？偏离在哪里？','接下来这一刻，我想怎么做？']},{t:'breathe',l:'三息归本',d:'深呼吸三次，重新锚定意图',dur:30}]},
+{id:'ningshen',ic:'🎯',nm:'凝神术',sub:'入定·★★★',desc:'深度专注 · 25分钟不被打断',clr:'#1a3a2e',acc:'#4aad78',xp:25,aud:1,steps:[{t:'journal',l:'立意',p:['25分钟要完成什么？']},{t:'timer',l:'入定25分',d:'心无旁骛',dur:1500}]},
+{id:'shengcha',ic:'🌙',nm:'省察术',sub:'暮省·★★',desc:'晚间专用 · 全天行为综合审计',clr:'#1e2e3e',acc:'#6a9abd',xp:20,aud:1,steps:[{t:'quicklog',l:'日审',items:[{q:'今日情绪总体如何？',opts:['平稳如水','有所起伏','数次被劫持','总体愉悦','压抑低落'],radio:true},{q:'今日私欲劫持几次？',opts:['0次·心清','1-2次','3-5次','5次以上'],radio:true},{q:'今日知行是否一致？',opts:['基本合一','略有偏差','多处脱节'],radio:true},{q:'值得记录的一件事',opts:[],free:true,placeholder:'今日最大收获、或被心魔劫持的一刻…'}]},{t:'score',l:'评分',cats:['情绪稳定','决策质量','专注程度','自我接纳','行动力']}]},
+{id:'gewu',ic:'📜',nm:'格物术',sub:'知行·★★★',desc:'深度剖析 · 解构一个具体念头',clr:'#2a3a1e',acc:'#8ab85c',xp:22,aud:0,steps:[{t:'quicklog',l:'指事',items:[{q:'今日一个具体念头或冲动',opts:['冲动消费','刷手机拖延','逃避任务','情绪爆发','贪便宜','争一口气','嫉妒攀比'],free:true,placeholder:'或自述这个念头…'}]},{t:'journal',l:'格物',p:['这念头从何而来？是恐惧、贪婪还是虚荣？','良知告诉你正确做法是什么？','你实际做了什么？知行是否合一？']}]}
 ];
 
 var DEMONS=[
@@ -997,7 +997,7 @@ function renderXL(){
   var h='<div class="topbar"><button class="tbtn" onclick="go(\'profile\')">🧘 我的</button><div style="font-size:14px;font-weight:700">功法修炼</div><button class="tbtn" onclick="go(\'daoshi\')">📜 道史</button></div>';
   h+='<div style="display:flex;gap:6px;margin-bottom:14px"><div style="flex:1;text-align:center;padding:11px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.06)"><div style="font-size:17px;font-weight:700;color:var(--jade)">'+S.streak+'天</div><div style="font-size:9px;color:var(--t3)">连续</div></div><div style="flex:1;text-align:center;padding:11px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.06)"><div style="font-size:17px;font-weight:700;color:var(--gold)">'+S.done.length+'/'+TECH.length+'</div><div style="font-size:9px;color:var(--t3)">今日</div></div><div style="flex:1;text-align:center;padding:11px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.06)"><div style="font-size:17px;font-weight:700;color:#6a9abd">'+S.total+'</div><div style="font-size:9px;color:var(--t3)">累计</div></div></div>';
   h+='<div class="sec">功 法 列 表</div>';
-  TECH.forEach(function(t,i){var dn=S.done.indexOf(t.id)>=0,cnt=S.modCnt[t.id]||0,decay=Math.pow(0.6,cnt),xpA=Math.max(1,Math.round(t.xp*m*decay));h+='<div class="item'+(dn?' rpt':'')+' fade" onclick="openMod('+i+')"><div class="ic" style="background:'+t.clr+'">'+t.ic+'</div><div style="flex:1"><div style="font-size:14px;font-weight:600">'+t.nm+(cnt>0?' <span style="font-size:10px;color:var(--jade);font-weight:400">×'+cnt+'</span>':'')+'</div><div style="font-size:10px;color:var(--t3)">'+t.sub+'</div></div>'+(dn?'<span style="font-size:11px;color:var(--gold);font-weight:600;background:rgba(184,150,60,.08);padding:2px 8px;border-radius:8px">+'+xpA+'</span>':'<span style="font-size:11px;color:var(--jade);font-weight:600;background:rgba(74,158,117,.08);padding:2px 8px;border-radius:8px">+'+xpA+'</span>')+'</div>'});
+  TECH.forEach(function(t,i){var dn=S.done.indexOf(t.id)>=0,cnt=S.modCnt[t.id]||0,decay=Math.pow(0.6,cnt),xpA=Math.max(1,Math.round(t.xp*m*decay));h+='<div class="item'+(dn?' rpt':'')+' fade" onclick="openMod('+i+')"><div class="ic" style="background:'+t.clr+'">'+t.ic+'</div><div style="flex:1"><div style="font-size:14px;font-weight:600">'+t.nm+(cnt>0?' <span style="font-size:10px;color:var(--jade);font-weight:400">×'+cnt+'</span>':'')+'</div><div style="font-size:10px;color:var(--t3)">'+t.sub+'</div>'+(t.desc?'<div style="font-size:10px;color:var(--t3);margin-top:2px;opacity:.65">'+t.desc+'</div>':'')+'</div>'+(dn?'<span style="font-size:11px;color:var(--gold);font-weight:600;background:rgba(184,150,60,.08);padding:2px 8px;border-radius:8px">+'+xpA+'</span>':'<span style="font-size:11px;color:var(--jade);font-weight:600;background:rgba(74,158,117,.08);padding:2px 8px;border-radius:8px">+'+xpA+'</span>')+'</div>'});
   document.getElementById('pg_xiulian').innerHTML=h;
 }
 
@@ -1012,16 +1012,23 @@ function renderRM2(){
 function doDemon(i){clickFx();var d=DEMONS[i];confirm2('记过：'+d[2],'魔气 +'+d[4]+'%\\n'+d[3],function(){addD(d[2],d[4]);suggestCW(d[5]);toast('⚠ '+d[2]+' · 魔气+'+d[4]+'%')})}
 function addD(nm,v){S.demon=Math.min(100,S.demon+v);S.demonTs=Date.now();addLog('入魔',nm+' 魔气+'+v+'%','red')}
 
-// After recording demon, suggest relevant passages
-function suggestCW(tags){
-  if(!tags||!tags.length)return;
+// After recording demon, suggest relevant passages + practice
+var TAG_TO_TECH={'致良知':['lianxin','shengcha'],'省察克治':['shengcha','gewu'],'格物':['gewu','shengcha'],'立志':['guben','ningshen'],'知行合一':['gewu','mingduan'],'谦卑':['guben'],'心体':['lianxin'],'静与动':['tunna','ningshen'],'情绪':['lianxin','tunna'],'改过':['shengcha','gewu'],'天理人欲':['shengcha'],'事上磨练':['ningshen','mingduan'],'论学':['ningshen'],'心即理':['lianxin']};
+function suggestCW(tags){suggestTechAndCW(tags)}
+function suggestTechAndCW(tags){
+  if(!tags||!tags.length){go('jiyuan');return}
+  var techSugg=null;
+  var order=['lianxin','tunna','shengcha','gewu','guben','ningshen','mingduan'];
+  outer:for(var ti=0;ti<order.length;ti++){for(var t=0;t<tags.length;t++){var mapped=TAG_TO_TECH[tags[t]]||[];if(mapped.indexOf(order[ti])>=0){for(var k=0;k<TECH.length;k++){if(TECH[k].id===order[ti]){techSugg=k;break outer}}}}}
   var matched=CXL.filter(function(c){return tags.indexOf(c.tag)>=0});
-  if(!matched.length){go('jiyuan');return}
-  var pick=matched[Math.floor(Math.random()*matched.length)];
-  var idx=CXL.indexOf(pick);
+  var pick=matched.length?matched[Math.floor(Math.random()*matched.length)]:null;
+  var cwIdx=pick?CXL.indexOf(pick):-1;
   setTimeout(function(){
     var m=document.getElementById('modal');
-    m.innerHTML='<div class="modal-bg"><div class="modal"><h3 style="color:var(--gold)">💡 对治心法</h3><p>入魔之后，不妨参悟这一篇：</p><div style="font-size:14px;font-weight:600;color:var(--gold);margin-bottom:12px">'+pick.num+' · '+pick.tag+'</div><div style="display:flex;gap:8px;justify-content:center"><button class="btn bo" onclick="document.getElementById(\'modal\').style.display=\'none\';go(\'jiyuan\')">稍后再看</button><button class="btn bg" onclick="document.getElementById(\'modal\').style.display=\'none\';openCW('+idx+')">立即参悟</button></div></div></div>';
+    var techHtml='';
+    if(techSugg!==null){var te=TECH[techSugg];techHtml='<button class="btn bg" style="width:100%;margin-bottom:6px;font-size:12px;padding:11px" onclick="document.getElementById(\'modal\').style.display=\'none\';openMod('+techSugg+')">⚔ 修炼「'+te.nm+'」对治</button>'}
+    var cwHtml=cwIdx>=0?'<button class="btn bo" style="width:100%;font-size:11px;padding:9px;margin-bottom:6px" onclick="document.getElementById(\'modal\').style.display=\'none\';openCW('+cwIdx+')">📖 参悟《'+(pick?pick.num:'')+'》</button>':'';
+    m.innerHTML='<div class="modal-bg"><div class="modal"><h3 style="color:var(--gold)">💡 对治心法</h3><p style="margin-bottom:12px">入魔已记录，建议当下对治：</p>'+techHtml+cwHtml+'<button class="btn br" style="width:100%;font-size:11px;padding:8px" onclick="document.getElementById(\'modal\').style.display=\'none\'">稍后再说</button></div></div>';
     m.style.display='block';
   },500);
 }
@@ -1160,10 +1167,53 @@ function genWeekly(){
   if(ws.canwu>=5){localReport+='<div style="color:var(--gold);margin-bottom:4px">✦ 参悟频繁，学而不辍</div>'}
   localReport+='</div>';
   // Try AI analysis
-  localReport+='<div id="aiWeekly" style="margin-top:8px;border-top:1px solid var(--c2);padding-top:8px"><button class="btn bo" style="width:100%;font-size:11px" onclick="aiWeekly()">🤖 AI 深度分析本周修行</button></div>';
+  localReport+='<div style="display:flex;gap:6px;margin-top:10px"><button class="btn bgold" style="flex:1;font-size:11px;padding:9px" onclick="exportWeeklyMD()">📋 导出MD给AI</button><button id="aiWeeklyBtn" class="btn bo" style="flex:1;font-size:11px;padding:9px" onclick="aiWeeklyInline()">🤖 在线AI分析</button></div>';
+  localReport+='<div id="aiWeekly" style="margin-top:6px"></div>';
   localReport+='</div>';
   el.innerHTML=localReport;
 }
+
+function aiWeeklyInline(){
+  document.getElementById('aiWeeklyBtn').style.display='none';
+  aiWeekly();
+}
+
+function exportWeeklyMD(){
+  var ws=getWeekStats();
+  var lv=getLvl(S.xp),r=RM[lv.ri];
+  var realm=lv.max?'元婴大圆满':r.n+r.ln(lv.li);
+  var now=new Date();
+  var md='# 修行周报 '+now.toLocaleDateString('zh-CN',{year:'numeric',month:'long',day:'numeric'})+'\n\n';
+  md+='## 本周概览\n';
+  md+='| 项目 | 数据 |\n|------|------|\n';
+  md+='| 境界 | '+realm+' |\n';
+  md+='| 连续修行 | '+S.streak+' 天 |\n';
+  md+='| 当前魔气 | '+Math.round(S.demon)+'% |\n';
+  md+='| 本周修炼 | '+ws.xiulian+' 次 |\n';
+  md+='| 本周参悟 | '+ws.canwu+' 遍 |\n';
+  md+='| 本周入魔 | '+ws.rumo+' 次 |\n';
+  md+='| 获得灵力 | '+ws.xpGained+' |\n\n';
+  if(ws.logs&&ws.logs.length){
+    md+='## 详细日志\n\n';
+    var byDay={};
+    ws.logs.slice().sort(function(a,b){return a.ts-b.ts}).forEach(function(l){
+      var d=new Date(l.ts).toLocaleDateString('zh-CN',{month:'long',day:'numeric'});
+      if(!byDay[d])byDay[d]=[];byDay[d].push(l);
+    });
+    Object.keys(byDay).forEach(function(day){
+      md+='### '+day+'\n';
+      byDay[day].forEach(function(l){
+        var t=new Date(l.ts).toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'});
+        md+='- `'+t+'` **'+l.type+'** '+l.text+'\n';
+      });
+      md+='\n';
+    });
+  }
+  md+='---\n*由「人间修真模拟器」导出 · 基于王阳明心学*\n\n';
+  md+='> **给AI的提示**：请根据以上修行日志，用王阳明心学的视角分析本周的心理模式和行为规律，指出主要的心魔规律，并给出下周具体可执行的修炼建议。\n';
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(md).then(function(){toast('✓ 周报MD已复制，可直接粘贴给AI')}).catch(function(){prompt('复制以下周报：',md)});
+  }else{prompt('复制以下周报：',md)}}
 
 function aiWeekly(){
   var ws=getWeekStats();var el=document.getElementById('aiWeekly');
@@ -1193,14 +1243,17 @@ function renderMod(){
   else if(step.t==='journal'){h+='<div class="scard">';step.p.forEach(function(p,j){h+='<div style="font-size:12px;color:var(--t2);margin-bottom:5px;line-height:1.5">'+p+'</div><textarea class="ji" id="j'+j+'" rows="2" placeholder="写下…"></textarea>'});h+='<button class="btn bg" style="width:100%;margin-top:4px" onclick="subJ('+step.p.length+')">'+(curStep<tech.steps.length-1?'保存继续 →':'保存完成 ✓')+'</button></div>'}
   else if(step.t==='score'){h+='<div class="scard">';step.cats.forEach(function(c,j){h+='<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:11px;color:var(--t2)">'+c+'</span><span style="font-size:13px;font-weight:700;color:var(--jade)" id="sv'+j+'">5</span></div><input type="range" min="1" max="10" value="5" oninput="document.getElementById(\'sv'+j+'\').textContent=this.value"></div>'});h+='<button class="btn bg" style="width:100%" onclick="subSc()">记录完成 ✓</button></div>'}
   else if(step.t==='bodyscan'){h+='<div class="scard"><div style="font-size:10px;color:var(--t3);margin-bottom:8px">'+step.d+'</div><div class="zones" id="zw">';step.z.forEach(function(z,j){h+='<div class="zt" id="z'+j+'">'+z+'</div>'});h+='</div><div style="text-align:center"><div style="font-size:14px;min-height:20px;margin-bottom:5px;font-weight:300" id="sT"></div><div style="font-size:22px;font-weight:700;margin-bottom:10px;color:var(--t2)" id="tD">'+fT(step.dur)+'</div><button class="btn bg" onclick="startSc()" id="scB">开始内视</button></div></div>'}
+  else if(step.t==='quicklog'){h+='<div class="scard">';step.items.forEach(function(item,j){h+='<div style="margin-bottom:14px"><div style="font-size:12px;color:var(--t2);margin-bottom:7px;font-weight:500">'+item.q+'</div><div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px" id="qlc'+j+'">';item.opts.forEach(function(o){h+='<button class="tag-btn" onclick="togChip(this,'+j+','+!!item.radio+')" data-val="'+o+'">'+o+'</button>'});h+='</div>'+(item.free?'<textarea class="ji" id="qlf'+j+'" rows="1" placeholder="'+(item.placeholder||'或手动输入…')+'" style="min-height:34px"></textarea>':'')+'</div>'});h+='<button class="btn bg" style="width:100%;margin-top:4px" onclick="subQL('+step.items.length+')">'+(curStep<tech.steps.length-1?'保存继续 →':'保存完成 ✓')+'</button></div>'}
   if(curStep<tech.steps.length-1)h+='<div style="text-align:center;margin-top:10px"><button style="background:none;color:var(--t3);font-size:10px;padding:5px 10px;border:none" onclick="nxt()">跳过 →</button></div>';
   h+='</div>';document.getElementById('pg_mod').innerHTML=h;
 }
 function startB(dur){document.getElementById('bB').style.display='none';var o=document.getElementById('bO'),p=document.getElementById('bP'),d=document.getElementById('tD');tmrLeft=dur;tmrRun=1;var phases=[['吸气',4000,'bIn'],['屏住',4000,''],['呼气',6000,'bOut']],ci=0;function sp(){var ph=phases[ci%3];p.textContent=ph[0]+'…';o.textContent=ph[0];o.style.animation=ph[2]?ph[2]+' '+ph[1]+'ms ease-in-out forwards':'none';speak(ph[0])}sp();function nx2(){if(!tmrRun)return;ci++;sp();setTimeout(nx2,phases[ci%3][1])}setTimeout(nx2,phases[0][1]);tmrId=setInterval(function(){tmrLeft--;d.textContent=fT(tmrLeft);if(tmrLeft<=0){stopAll();stopSpeak();p.textContent='完毕';o.textContent='✓';o.style.animation='none';speak('吐纳完毕');bell();setTimeout(nxt,1500)}},1e3)}
 function togT(dur){var b=document.getElementById('tB'),d=document.getElementById('tD'),r=document.getElementById('rB');if(!tmrRun){if(!tmrLeft)tmrLeft=dur;tmrRun=1;b.textContent='暂停';r.style.display='inline-block';tmrId=setInterval(function(){tmrLeft--;d.textContent=fT(tmrLeft);if(tmrLeft<=0){stopAll();d.textContent='00:00';b.textContent='出定 ✓';b.onclick=nxt;speak('入定结束');bell()}},1e3)}else{clearInterval(tmrId);tmrRun=0;b.textContent='继续'}}
 function rstT(dur){stopAll();tmrLeft=0;document.getElementById('tD').textContent=fT(dur);var b=document.getElementById('tB');b.textContent='入定';b.onclick=function(){togT(dur)};document.getElementById('rB').style.display='none'}
-function startSc(){var tech=TECH[curMod],step=tech.steps[curStep],zones=step.z,per=Math.floor(step.dur/zones.length),idx=0;document.getElementById('scB').style.display='none';document.getElementById('z0').classList.add('cur');document.getElementById('sT').innerHTML='观照 <span style="color:'+tech.acc+'">'+zones[0]+'</span>';speak('观照'+zones[0]);tmrLeft=step.dur;tmrRun=1;tmrId=setInterval(function(){tmrLeft--;document.getElementById('tD').textContent=fT(tmrLeft);if(tmrLeft<=0)stopAll()},1e3);scanId=setInterval(function(){document.getElementById('z'+idx).classList.remove('cur');document.getElementById('z'+idx).classList.add('ok');idx++;if(idx>=zones.length){clearInterval(scanId);scanId=null;document.getElementById('sT').innerHTML='<span style="color:'+tech.acc+'">内视完毕 ✓</span>';speak('内视完毕');bell();setTimeout(nxt,1e3);return}document.getElementById('z'+idx).classList.add('cur');document.getElementById('sT').innerHTML='观照 <span style="color:'+tech.acc+'">'+zones[idx]+'</span>'},per*1e3)}
+function startSc(){var tech=TECH[curMod],step=tech.steps[curStep],zones=step.z,per=Math.floor(step.dur/zones.length),idx=0;document.getElementById('scB').style.display='none';document.getElementById('z0').classList.add('cur');document.getElementById('sT').innerHTML='观照 <span style="color:'+tech.acc+'">'+zones[0]+'</span>';speak('观照'+zones[0]);tmrLeft=step.dur;tmrRun=1;tmrId=setInterval(function(){tmrLeft--;document.getElementById('tD').textContent=fT(tmrLeft);if(tmrLeft<=0)stopAll()},1e3);scanId=setInterval(function(){document.getElementById('z'+idx).classList.remove('cur');document.getElementById('z'+idx).classList.add('ok');idx++;if(idx>=zones.length){clearInterval(scanId);scanId=null;document.getElementById('sT').innerHTML='<span style="color:'+tech.acc+'">内视完毕 ✓</span>';speak('内视完毕');bell();setTimeout(nxt,1e3);return}document.getElementById('z'+idx).classList.add('cur');document.getElementById('sT').innerHTML='观照 <span style="color:'+tech.acc+'">'+zones[idx]+'</span>';speak('观照'+zones[idx]);},per*1e3)}
 function subJ(n){var tech=TECH[curMod],step=tech.steps[curStep],empty=0;for(var i=0;i<n;i++){var el=document.getElementById('j'+i);if(!el||!el.value.trim())empty=1}if(empty){toast('请至少写点什么');return}addLog('修炼',tech.nm+'·'+step.l);nxt()}
+function togChip(el,g,radio){clickFx();var c=document.getElementById('qlc'+g);if(radio){c.querySelectorAll('.tag-btn').forEach(function(b){b.classList.remove('on')});el.classList.add('on')}else{el.classList.toggle('on')}}
+function subQL(n){var tech=TECH[curMod],step=tech.steps[curStep];var hasInput=false;var parts=[];for(var i=0;i<n;i++){var chips=document.querySelectorAll('#qlc'+i+' .tag-btn.on');var fj=document.getElementById('qlf'+i);var vals=Array.from(chips).map(function(b){return b.dataset.val}).join('/');if(fj&&fj.value.trim())vals=(vals?vals+'/':'')+fj.value.trim();if(vals){hasInput=true;parts.push(step.items[i].q.replace(/[？?]/,'')+':'+vals)}}if(!hasInput){toast('请至少选择或填写一项');return}addLog('修炼',tech.nm+'·'+step.l+(parts.length?' ['+parts.join('；')+']':''));nxt()}
 function subSc(){addLog('修炼','省察评分');nxt()}
 function nxt(){stopAll();var tech=TECH[curMod];if(curStep<tech.steps.length-1){curStep++;renderMod()}else compMod()}
 function compMod(){stopAll();stopA();var tech=TECH[curMod];var cnt=S.modCnt[tech.id]||0;var decay=Math.pow(0.6,cnt);var xpBase=Math.max(1,Math.round(tech.xp*decay));var isFirst=S.done.indexOf(tech.id)<0;if(isFirst){S.done.push(tech.id);if(S.done.length===1&&S.lastDate!==td())S.streak++}S.modCnt[tech.id]=cnt+1;S.total++;var got=gainXp(xpBase);S.demon=Math.max(0,S.demon-(isFirst?3:1));S.demonTs=Date.now();addLog('修炼','完成「'+tech.nm+'」'+(cnt>0?'第'+(cnt+1)+'遍':'')+' +'+got+'灵力');if(isFirst&&S.done.length===TECH.length){var b=gainXp(20);S.demon=Math.max(0,S.demon-10);addLog('修炼','日修圆满 +'+b+'灵力 魔气-10%','jade')}save();toast('✓ '+tech.nm+(cnt>0?' ×'+(cnt+1):'')+' +'+got+'灵力');exitMod()}
@@ -1210,12 +1263,15 @@ function exportSave(){var data=localStorage.getItem('xz7');if(!data){toast('无�
 function showImport(){var el=document.getElementById('impArea');el.style.display=el.style.display==='none'?'block':'none'}
 function importSave(){var data=document.getElementById('impData').value.trim();if(!data){toast('请粘贴存档数据');return}try{var parsed=JSON.parse(data);if(!parsed.xp&&parsed.xp!==0){toast('无效存档');return}localStorage.setItem('xz7',data);toast('✓ 导入成功，重新加载…');setTimeout(function(){location.reload()},800)}catch(e){toast('存档格式错误')}}
 
-// ===== SUPABASE CONFIG =====
-// TODO: Replace with your Supabase project credentials
-var SB_URL='YOUR_SUPABASE_URL';
-var SB_KEY='YOUR_SUPABASE_ANON_KEY';
+// ===== BACKEND CONFIG =====
+// 填入你的 Supabase 项目地址和匿名密钥即可开启云端排行榜
+// 免费注册：https://supabase.com → 新建项目 → Settings → API
+var SB_URL='https://ikqrsfeatesakawgskmp.supabase.co';
+var SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcXJzZmVhdGVzYWthd2dza21wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1Mzk5OTgsImV4cCI6MjA4ODExNTk5OH0.4lzmdxUU-UPuVPFhAWdEuf9PKwulpp0Gsm_ABSaY6yw';
 var sb=null,sbUser=null,sbProfile=null;
 var SB_READY=SB_URL!=='YOUR_SUPABASE_URL';
+// Email domain used internally to convert username→email (users never see this)
+var AUTH_DOMAIN='xiuzhen.app';
 
 function initSB(){
   if(!SB_READY)return;
@@ -1231,18 +1287,66 @@ function initSB(){
 function showAuth(){
   var el=document.getElementById('authPage');
   el.style.display='flex';
-  el.innerHTML='<div class="auth-box"><div style="font-size:40px;margin-bottom:12px;animation:float 3s ease infinite">🧘</div><div style="font-size:22px;font-weight:800;color:var(--jade);letter-spacing:3px;margin-bottom:4px;font-family:Ma Shan Zheng,cursive">人间修真模拟器</div><div style="font-size:11px;color:var(--t3);margin-bottom:28px">基于王阳明心学的自我修行工具</div>'+(SB_READY?'<button class="auth-btn auth-google" onclick="loginGoogle()"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google 登录</button><button class="auth-btn auth-anon" onclick="loginAnon()">🎭 匿名体验</button>':'')+'<button class="auth-btn auth-skip" onclick="skipAuth()">跳过登录，本地修行</button><div style="font-size:9px;color:var(--t3);margin-top:12px">'+(SB_READY?'登录后数据云端同步，可参与排行榜':'当前为离线模式 · 数据存储在本设备')+'</div></div>';
+  var isReg=false;
+  function render(reg){
+    isReg=reg;
+    el.innerHTML='<div class="auth-box"><div style="font-size:40px;margin-bottom:10px;animation:float 3s ease infinite">🧘</div>'
+      +'<div style="font-size:22px;font-weight:800;color:var(--jade);letter-spacing:3px;margin-bottom:3px;font-family:Ma Shan Zheng,cursive">人间修真模拟器</div>'
+      +'<div style="font-size:11px;color:var(--t3);margin-bottom:22px">基于王阳明心学的自我修行工具</div>'
+      +(SB_READY
+        ?'<div style="width:100%">'
+          +(reg
+            ?'<div style="font-size:13px;font-weight:700;color:var(--jade);margin-bottom:12px;text-align:center">✦ 注 册 修 行 账 号 ✦</div>'
+            :'<div style="font-size:13px;font-weight:700;color:var(--t2);margin-bottom:12px;text-align:center">登 录 修 行</div>')
+          +(reg?'<input type="text" id="authName" placeholder="修行名号（最多8字，排行榜显示）" maxlength="8" style="width:100%;padding:11px 12px;border:1px solid rgba(0,0,0,.1);border-radius:10px;font-size:13px;font-family:inherit;outline:none;margin-bottom:7px;background:#fff;color:var(--t)">':'')
+          +'<input type="text" id="authUser" placeholder="账号（英文或数字，4~20位）" maxlength="20" autocomplete="username" style="width:100%;padding:11px 12px;border:1px solid rgba(0,0,0,.1);border-radius:10px;font-size:13px;font-family:inherit;outline:none;margin-bottom:7px;background:#fff;color:var(--t)">'
+          +'<input type="password" id="authPwd" placeholder="密码（6位以上）" autocomplete="current-password" style="width:100%;padding:11px 12px;border:1px solid rgba(0,0,0,.1);border-radius:10px;font-size:13px;font-family:inherit;outline:none;margin-bottom:10px;background:#fff;color:var(--t)">'
+          +'<button class="auth-btn" style="background:linear-gradient(135deg,var(--jade2),var(--jade));color:#fff;padding:13px;margin-bottom:8px" onclick="'+(reg?'registerUser()':'loginUser()')+'">'+( reg?'注册并开始修行':'登 录')+'</button>'
+          +'<div style="text-align:center;font-size:11px;color:var(--t3);margin-bottom:10px">'+(reg?'已有账号？<span style="color:var(--jade);cursor:pointer" onclick="showAuthForm(false)"> 去登录</span>':'还没账号？<span style="color:var(--jade);cursor:pointer" onclick="showAuthForm(true)"> 注册</span>')+'</div>'
+          +'</div>'
+        :'<div style="font-size:11px;color:var(--t3);margin-bottom:14px;text-align:center;line-height:1.8">当前为离线模式<br>配置后端后可参与排行榜</div>')
+      +'<button class="auth-btn auth-skip" onclick="skipAuth()">暂时跳过，先本地修行</button>'
+      +(sbUser?'<div style="font-size:9px;color:var(--jade);margin-top:8px">当前已登录</div>':'')
+      +'</div>';
+  }
+  window.showAuthForm=function(reg){render(reg)};
+  render(false);
 }
 
-function loginGoogle(){
-  if(!sb)return;
-  sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname}});
+function _toEmail(u){return u.toLowerCase().replace(/[^a-z0-9_]/g,'')+'@'+AUTH_DOMAIN}
+function loginUser(){
+  if(!sb){toast('后端未配置');return}
+  var u=(document.getElementById('authUser').value||'').trim();
+  var p=(document.getElementById('authPwd').value||'');
+  if(!u||!p){toast('请填写账号和密码');return}
+  if(u.length<4){toast('账号至少4位');return}
+  sb.auth.signInWithPassword({email:_toEmail(u),password:p}).then(function(r){
+    if(r.error){toast('❌ 账号或密码错误');return}
+    sbUser=r.data.user;hideAuth();toast('✓ 欢迎回来，修行继续');syncToCloud();
+  });
 }
-function loginAnon(){
-  if(!sb)return;
-  sb.auth.signInAnonymously().then(function(r){
-    if(r.data.user){sbUser=r.data.user;hideAuth();toast('✓ 匿名修行开始');syncToCloud()}
-  }).catch(function(){toast('登录失败，本地模式')});
+function registerUser(){
+  if(!sb){toast('后端未配置');return}
+  var nm=(document.getElementById('authName').value||'').trim();
+  var u=(document.getElementById('authUser').value||'').trim();
+  var p=(document.getElementById('authPwd').value||'');
+  if(!nm){toast('请填写修行名号');return}
+  if(!u||u.length<4){toast('账号至少4位英文或数字');return}
+  if(p.length<6){toast('密码至少6位');return}
+  var email=_toEmail(u);
+  sb.auth.signUp({email:email,password:p,options:{data:{display_name:nm}}}).then(function(r){
+    if(r.error){
+      var msg=r.error.message||'';
+      if(msg.indexOf('already')>=0||msg.indexOf('duplicate')>=0){toast('❌ 该账号已被注册')}
+      else{toast('❌ '+(msg||'注册失败'))}
+      return;
+    }
+    sbUser=r.data.user;
+    if(sbUser){
+      sbProfile={id:sbUser.id,display_name:nm,is_public:true,xp:S.xp,streak:S.streak,total:S.total,demon:S.demon,canwu_total:0,composite:calcComposite()};
+      sb.from('profiles').upsert(sbProfile).then(function(){hideAuth();toast('✓ 注册成功！已加入排行榜');syncToCloud()});
+    }else{hideAuth();toast('✓ 注册成功，请登录')}
+  });
 }
 function skipAuth(){hideAuth()}
 function hideAuth(){document.getElementById('authPage').style.display='none'}
@@ -1256,9 +1360,8 @@ function loadProfile(){
 }
 function createProfile(){
   if(!sb||!sbUser)return;
-  var nm=sbUser.user_metadata&&sbUser.user_metadata.full_name?sbUser.user_metadata.full_name:'无名修士';
-  var av=sbUser.user_metadata&&sbUser.user_metadata.avatar_url?sbUser.user_metadata.avatar_url:'';
-  sbProfile={id:sbUser.id,display_name:nm,avatar_url:av,is_public:false,xp:S.xp,streak:S.streak,total:S.total,demon:S.demon,canwu_total:Object.values(S.cwCount).reduce(function(a,b){return a+b},0),composite:calcComposite()};
+  var nm=(sbUser.user_metadata&&sbUser.user_metadata.display_name)?sbUser.user_metadata.display_name:'无名修士';
+  sbProfile={id:sbUser.id,display_name:nm,avatar_url:'',is_public:true,xp:S.xp,streak:S.streak,total:S.total,demon:S.demon,canwu_total:Object.values(S.cwCount).reduce(function(a,b){return a+b},0),composite:calcComposite()};
   sb.from('profiles').upsert(sbProfile).then(function(){syncToCloud()});
 }
 
@@ -1298,18 +1401,23 @@ save=function(){_origSave();syncToCloud()};
 // ===== LEADERBOARD =====
 function renderPH(){
   var h='<div class="topbar"><button class="tbtn" onclick="go(\'profile\')">🧘 我的</button><div style="font-size:14px;font-weight:700">修真排行榜</div><button class="tbtn" onclick="genShareCard()">📤 分享</button></div>';
-  h+='<div style="font-size:11px;color:var(--t3);margin-bottom:14px;text-align:center">综合评分 = 灵力40% + 连续天数25% + 功法20% + 参悟15% − 魔气惩罚</div>';
+  h+='<div style="font-size:11px;color:var(--t3);margin-bottom:8px;text-align:center">综合评分 = 灵力40% + 连续天数25% + 功法20% + 参悟15% − 魔气惩罚</div>';
+  h+='<div id="lbCount" style="text-align:center;margin-bottom:12px;font-size:12px;color:var(--jade)"></div>';
 
   if(!SB_READY){
-    h+='<div class="card" style="text-align:center;padding:30px"><div style="font-size:28px;margin-bottom:10px">🏆</div><div style="font-size:13px;color:var(--t2);margin-bottom:12px">排行榜需要配置 Supabase 后端</div><div style="font-size:11px;color:var(--t3);line-height:1.8;margin-bottom:14px">当前为离线模式<br>配置说明见 README</div>';
-    // Show local stats as preview
     var lv=getLvl(S.xp),r=RM[lv.ri],comp=calcComposite();
-    h+='<div class="lb-row" style="border:2px solid rgba(74,158,117,.2)"><div class="lb-rank" style="color:var(--jade)">—</div><div class="lb-info"><div class="lb-name" style="color:var(--jade)">你 · '+(lv.max?'元婴大圆满':r.n+r.ln(lv.li))+'</div><div class="lb-sub">灵力'+S.xp+' · 连续'+S.streak+'天 · 综合'+comp+'</div></div></div></div>';
+    h+='<div class="card" style="text-align:center;padding:24px"><div style="font-size:24px;margin-bottom:8px">🏆</div>'
+      +'<div style="font-size:12px;color:var(--t2);margin-bottom:10px">配置后端后可参与全局排行榜</div>'
+      +'<div class="lb-row" style="border:2px solid rgba(74,158,117,.2)"><div class="lb-rank" style="color:var(--jade)">—</div><div class="lb-info"><div class="lb-name" style="color:var(--jade)">你 · '+(lv.max?'元婴大圆满':r.n+r.ln(lv.li))+'</div><div class="lb-sub">灵力'+S.xp+' · 连续'+S.streak+'天 · 综合'+comp+'</div></div></div>'
+      +'<button class="btn bg" style="width:100%;margin-top:12px" onclick="showAuth()">登录 / 注册 加入排行</button></div>';
     h+='<div class="sec" style="margin-top:16px">除 妖 试 炼</div><button class="btn bo" style="width:100%" onclick="go(\'chuyao\')">🗡 进入除妖试炼</button>';
     document.getElementById('pg_paihang').innerHTML=h;
     return;
   }
 
+  if(!sbUser){
+    h+='<div class="card" style="text-align:center;padding:20px"><div style="font-size:12px;color:var(--t2);margin-bottom:10px">登录后即可参与排行榜</div><button class="btn bg" style="width:100%" onclick="showAuth()">登录 / 注册</button></div>';
+  }
   h+='<div id="lbList"><div style="text-align:center;padding:20px"><span class="ai-load"></span> 加载中…</div></div>';
   h+='<div class="sec" style="margin-top:16px">除 妖 试 炼</div><button class="btn bo" style="width:100%" onclick="go(\'chuyao\')">🗡 进入除妖试炼</button>';
   document.getElementById('pg_paihang').innerHTML=h;
@@ -1318,23 +1426,36 @@ function renderPH(){
 
 function loadLeaderboard(){
   if(!sb)return;
-  sb.from('profiles').select('display_name,avatar_url,xp,streak,realm,composite,is_public').eq('is_public',true).order('composite',{ascending:false}).limit(50).then(function(r){
-    var list=r.data||[];
+  // Fetch total user count + top list in parallel
+  Promise.all([
+    sb.from('profiles').select('id',{count:'exact',head:true}),
+    sb.from('profiles').select('display_name,xp,streak,realm,composite,is_public').eq('is_public',true).order('composite',{ascending:false}).limit(50)
+  ]).then(function(results){
+    var countRes=results[0],listRes=results[1];
+    var total=countRes.count||0;
+    var countEl=document.getElementById('lbCount');
+    if(countEl&&total>0){countEl.innerHTML='✦ 共 <b>'+total+'</b> 位修行者已加入 ✦'}
+    var list=listRes.data||[];
     var el=document.getElementById('lbList');
     if(!el)return;
-    if(!list.length){el.innerHTML='<div class="card" style="text-align:center;padding:20px"><div style="font-size:11px;color:var(--t3)">暂无公开修行者<br>在「我的」中开启公开模式即可上榜</div></div>';return}
+    if(!list.length){el.innerHTML='<div class="card" style="text-align:center;padding:20px"><div style="font-size:11px;color:var(--t3)">暂无公开修行者<br>注册后默认上榜，可在「我的」中关闭</div></div>';return}
     var h='';
     list.forEach(function(p,i){
       var rc=i===0?'g':i===1?'s':i===2?'b':'';
       var medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
-      h+='<div class="lb-row fade"><div class="lb-rank '+rc+'">'+(medal||(i+1))+'</div><div class="lb-info"><div class="lb-name">'+(p.display_name||'无名修士')+'</div><div class="lb-sub">'+(p.realm||'练气')+' · 灵力'+p.xp+' · 连续'+p.streak+'天</div></div><div style="font-size:14px;font-weight:700;color:var(--gold)">'+p.composite+'</div></div>';
+      var isSelf=sbProfile&&p.display_name===sbProfile.display_name;
+      h+='<div class="lb-row fade" style="'+(isSelf?'border:2px solid rgba(74,158,117,.25);background:rgba(74,158,117,.03)':'')+'"><div class="lb-rank '+rc+'">'+(medal||(i+1))+'</div><div class="lb-info"><div class="lb-name" style="'+(isSelf?'color:var(--jade)':'')+'">'+(p.display_name||'无名修士')+(isSelf?' 🔅':'')+'</div><div class="lb-sub">'+(p.realm||'练气')+' · 灵力'+p.xp+' · 连续'+p.streak+'天</div></div><div style="font-size:14px;font-weight:700;color:var(--gold)">'+p.composite+'</div></div>';
     });
-    // Add self
-    var lv=getLvl(S.xp),rm=RM[lv.ri],comp=calcComposite();
-    h+='<div class="lb-row" style="border:2px solid rgba(74,158,117,.2);margin-top:10px"><div class="lb-rank" style="color:var(--jade)">你</div><div class="lb-info"><div class="lb-name" style="color:var(--jade)">'+(sbProfile?sbProfile.display_name:'你')+' · '+(lv.max?'元婴大圆满':rm.n+rm.ln(lv.li))+'</div><div class="lb-sub">灵力'+S.xp+' · 连续'+S.streak+'天</div></div><div style="font-size:14px;font-weight:700;color:var(--jade)">'+comp+'</div></div>';
+    // If self not in top 50, show self below
+    var selfInList=sbProfile&&list.some(function(p){return p.display_name===sbProfile.display_name});
+    if(!selfInList&&sbUser){
+      var lv=getLvl(S.xp),rm=RM[lv.ri],comp=calcComposite();
+      h+='<div style="text-align:center;font-size:10px;color:var(--t3);padding:6px">— 你暂未进入前50 —</div>';
+      h+='<div class="lb-row" style="border:2px dashed rgba(74,158,117,.2)"><div class="lb-rank" style="color:var(--jade)">你</div><div class="lb-info"><div class="lb-name" style="color:var(--jade)">'+(sbProfile?sbProfile.display_name:'你')+' · '+(lv.max?'元婴大圆满':rm.n+rm.ln(lv.li))+'</div><div class="lb-sub">灵力'+S.xp+' · 连续'+S.streak+'天</div></div><div style="font-size:14px;font-weight:700;color:var(--jade)">'+comp+'</div></div>';
+    }
     el.innerHTML=h;
   }).catch(function(){
-    var el=document.getElementById('lbList');if(el)el.innerHTML='<div class="card" style="text-align:center;padding:20px;font-size:11px;color:var(--t3)">排行榜加载失败</div>';
+    var el=document.getElementById('lbList');if(el)el.innerHTML='<div class="card" style="text-align:center;padding:20px;font-size:11px;color:var(--t3)">排行榜加载失败，请检查网络</div>';
   });
 }
 
@@ -1405,10 +1526,7 @@ renderPF=function(){
   var extra='<div class="sec" style="margin-top:4px">社 交 设 置</div>';
   var isPub=sbProfile?sbProfile.is_public:false;
   extra+='<div class="privacy-toggle"><div><div style="font-size:13px;font-weight:600">公开排行榜</div><div style="font-size:10px;color:var(--t3)">开启后你的修行数据将显示在排行榜</div></div><div class="toggle-sw'+(isPub?' on':'')+'" onclick="togglePublic(this)"></div></div>';
-  if(sbUser){
-    var nm=sbProfile?sbProfile.display_name:'无名修士';
-    extra+='<div class="privacy-toggle"><div><div style="font-size:13px;font-weight:600">修行名号</div><div style="font-size:10px;color:var(--t3)">'+nm+'</div></div><button class="tbtn" onclick="changeName()">修改</button></div>';
-  }
+  extra+='<div class="privacy-toggle"><div><div style="font-size:13px;font-weight:600">修行名号</div><div style="font-size:10px;color:var(--t3)">'+(sbProfile?sbProfile.display_name:'未登录')+'</div></div>'+(sbUser?'<button class="tbtn" onclick="changeName()">修改</button>':'<button class="tbtn" onclick="showAuth()">登录/注册</button>')+'</div>';
   extra+='<div class="privacy-toggle"><div><div style="font-size:13px;font-weight:600">分享成就卡</div><div style="font-size:10px;color:var(--t3)">生成精美修行成就图片</div></div><button class="tbtn" onclick="genShareCard()">📤 生成</button></div>';
   extra+='<div class="sec">试 炼</div><button class="btn bo" style="width:100%;margin-bottom:8px" onclick="go(\'chuyao\')">🗡 除妖试炼</button>';
   if(!sbUser&&SB_READY){
