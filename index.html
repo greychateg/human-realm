@@ -1573,7 +1573,7 @@ function changeName(){
 
 // INIT
 if('serviceWorker' in navigator){
-  var SW_VER='v5';
+  var SW_VER='v6';
   if(localStorage.getItem('sw_ver')!==SW_VER){
     navigator.serviceWorker.getRegistrations().then(function(regs){
       return Promise.all(regs.map(function(r){return r.unregister()}));
