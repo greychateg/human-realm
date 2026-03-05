@@ -1343,7 +1343,7 @@ function registerUser(){
     sbUser=r.data.user;
     if(sbUser){
       sbProfile={id:sbUser.id,display_name:nm,is_public:true,xp:S.xp,streak:S.streak,total:S.total,demon:S.demon,canwu_total:0,composite:calcComposite()};
-      sb.from('profiles').upsert(sbProfile).then(function(){hideAuth();toast('✓ 注册成功！已加入排行榜');syncToCloud()});
+      sb.from('profiles').upsert(sbProfile).then(function(res){if(res.error){toast('❌ 写入失败: '+res.error.message);console.error('upsert err:',res.error)}else{hideAuth();toast('✓ 注册成功！已加入排行榜');syncToCloud()}});
     }else{hideAuth();toast('✓ 注册成功，请登录')}
   });
 }
@@ -1382,7 +1382,7 @@ function syncToCloud(){
     xp:S.xp,streak:S.streak,total:S.total,demon:Math.round(S.demon),
     canwu_total:cwTotal,realm:lv.max?'元婴大圆满':r.n+r.ln(lv.li),
     composite:calcComposite(),updated_at:new Date().toISOString()
-  }).eq('id',sbUser.id).then(function(){});
+  }).eq('id',sbUser.id).then(function(res){if(res.error)console.error('sync err:',res.error)});
 }
 function syncFromCloud(){
   // Cloud has latest? Compare XP
