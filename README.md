@@ -2,7 +2,7 @@
 
 > 以王阳明《传习录》为心法，以修仙境界为框架，专为交易员设计的心性修行工具。
 
-**在线体验：**[ [renjianxiuzhen.netlify.app](https://renjianxiuzhen.netlify.app)](https://greychateg.github.io/human-realm/)
+**在线体验：** (https://greychateg.github.io/human-realm/)
 
 ---
 
