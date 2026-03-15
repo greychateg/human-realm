@@ -937,10 +937,12 @@ function kwClassify(txt){
 var S={xp:0,done:[],streak:0,total:0,lastDate:null,demon:0,demonTs:Date.now(),log:[],doneChl:[],readQ:0,cwCount:{},modCnt:{}};
 var curMod=null,curStep=0,tmrId=null,tmrLeft=0,tmrRun=0,scanId=null,lastTab='jiyuan',jyIdx=0,cwFilter='全部';
 
-function td(){return new Date().toISOString().slice(0,10)}
+function td(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function fT(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
 function getMult(){return Math.max(0,(100-S.demon)/100)}
-function load(){try{var r=JSON.parse(localStorage.getItem('xz7'));if(!r)return;S.xp=r.xp||0;S.total=r.total||0;S.log=r.log||[];S.demon=r.demon||0;S.demonTs=r.demonTs||Date.now();S.cwCount=r.cwCount||{};var t=td();if(r.lastDate===t){S.done=r.done||[];S.streak=r.streak||0;S.readQ=r.readQ||0;S.doneChl=r.doneChl||[];S.modCnt=r.modCnt||{}}else{var y=new Date(Date.now()-864e5).toISOString().slice(0,10);S.done=[];S.doneChl=[];S.readQ=0;S.modCnt={};S.streak=r.lastDate===y?(r.streak||0):0}S.lastDate=r.lastDate}catch(e){}decayD()}
+function yd(){var d=new Date(Date.now()-864e5);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function load(){try{var r=JSON.parse(localStorage.getItem('xz7'));if(!r)return;S.xp=r.xp||0;S.total=r.total||0;S.log=r.log||[];S.demon=r.demon||0;S.demonTs=r.demonTs||Date.now();S.cwCount=r.cwCount||{};var t=td();if(r.lastDate===t){S.done=r.done||[];S.streak=r.streak||0;S.readQ=r.readQ||0;S.doneChl=r.doneChl||[];S.modCnt=r.modCnt||{}}else{var y=yd();S.done=[];S.doneChl=[];S.readQ=0;S.modCnt={};S.streak=r.lastDate===y?(r.streak||0):0}S.lastDate=r.lastDate}catch(e){}decayD()}
+function checkStreak(){if(S.lastDate!==td()){S.streak++;S.lastDate=td()}}
 function save(){S.lastDate=td();try{var d=JSON.stringify(S);localStorage.setItem('xz7',d);localStorage.setItem('xz7_backup',d)}catch(e){}}
 function decayD(){if(S.demon<=0){S.demon=0;return}var h=(Date.now()-S.demonTs)/36e5;S.demon=Math.max(0,S.demon-h*(100/72));S.demonTs=Date.now()}
 function addLog(type,text,color){S.log.push({ts:Date.now(),type:type,text:text,color:color||'jade'});if(S.log.length>300)S.log=S.log.slice(-200);save()}
@@ -988,7 +990,7 @@ function renderJY(){
   '<div style="display:flex;gap:8px;justify-content:center;margin-top:12px"><button class="btn bg" onclick="readJY()" style="flex:1">领悟 +灵力</button><button class="btn bo" onclick="newJY()" style="flex:1">换一篇</button></div>';
 }
 function newJY(){clickFx();jyIdx=Math.floor(Math.random()*JINJU.length);renderJY()}
-function readJY(){clickFx();if(S.readQ>=8){toast('今日机缘已满(8次)');return}S.readQ++;var got=gainXp(3);addLog('机缘','领悟机缘 +'+got+'灵力');toast('✦ +'+got+'灵力');newJY()}
+function readJY(){clickFx();if(S.readQ>=8){toast('今日机缘已满(8次)');return}checkStreak();S.readQ++;var got=gainXp(3);addLog('机缘','领悟机缘 +'+got+'灵力');toast('✦ +'+got+'灵力');newJY()}
 
 // ===== 修炼 =====
 function renderXL(){
@@ -1063,6 +1065,7 @@ function confirmSmartD(i){var d=DEMONS[i];addD(d[2],d[4]);suggestCW(d[5]);toast(
 function doAI(nm,v){addD(nm,v);toast('⚠ '+nm+' 魔气+'+v+'%');document.getElementById('aiInput').value='';document.getElementById('aiRes').style.display='none';go('jiyuan')}
 
 // ===== 参悟 - full 传习录 =====
+function randCW(){clickFx();var med=CXL.filter(function(c){var len=c.t.length;return len>=150&&len<=500});if(!med.length)med=CXL;var pick=med[Math.floor(Math.random()*med.length)];var idx=CXL.indexOf(pick);openCW(idx)}
 function getCwCount(id){return S.cwCount[id]||0}
 function getCwLabel(cnt){
   if(cnt===0)return '';
@@ -1076,7 +1079,7 @@ function getCwXp(cnt){if(cnt<10)return 5;if(cnt<50)return 3;if(cnt<100)return 2;
 function renderCW(){
   var totalCw=0;Object.keys(S.cwCount).forEach(function(k){totalCw+=S.cwCount[k]});
   var h='<div class="topbar"><button class="tbtn" onclick="go(\'profile\')">🧘 我的</button><div style="font-size:14px;font-weight:700">参悟心法</div><button class="tbtn" onclick="go(\'daoshi\')">📜 道史</button></div>';
-  h+='<div class="card" style="border-color:rgba(184,150,60,.12);background:rgba(184,150,60,.04);text-align:center;margin-bottom:10px"><div style="font-size:9px;color:var(--t3);letter-spacing:2px;margin-bottom:2px">王阳明 · 传习录 · 全本</div><div style="font-size:22px;font-weight:700;color:var(--gold);font-family:Ma Shan Zheng,cursive">'+CXL.length+'篇 · 已参悟'+totalCw+'遍</div></div>';
+  h+='<div class="card" style="border-color:rgba(184,150,60,.12);background:rgba(184,150,60,.04);text-align:center;margin-bottom:10px"><div style="font-size:9px;color:var(--t3);letter-spacing:2px;margin-bottom:2px">王阳明 · 传习录 · 全本</div><div style="font-size:22px;font-weight:700;color:var(--gold);font-family:Ma Shan Zheng,cursive">'+CXL.length+'篇 · 已参悟'+totalCw+'遍</div><button class="btn bgold" style="margin-top:10px;font-size:13px;padding:10px 28px" onclick="randCW()">🎲 随机参悟</button></div>';
   // Tag filter
   var allTags=['全部','致良知','心体','格物','论学','省察克治','知行合一','心即理','静与动','谦卑','立志','诚意','天理人欲','改过','情绪','事上磨练','朋友之道','修行语录'];
   h+='<div class="tag-row" style="margin-bottom:12px">';
@@ -1107,11 +1110,11 @@ function openCW(idx){
   det.classList.add('on');det.scrollTop=0;document.getElementById('tabBar').style.display='none';
 }
 function closeDet(){document.getElementById('det').classList.remove('on');document.getElementById('tabBar').style.display='flex';if(lastTab==='canwu')renderCW()}
-function doCW2(idx){clickFx();var cw=CXL[idx];var cnt=getCwCount(cw.id);var xpBase=getCwXp(cnt);S.cwCount[cw.id]=(cnt||0)+1;var got=gainXp(xpBase);addLog('参悟','悟 第'+cw.num+'则('+cw.tag+') 第'+S.cwCount[cw.id]+'遍 +'+got+'灵力');toast('📖 +'+got+'灵力 · 第'+S.cwCount[cw.id]+'遍');openCW(idx)}
+function doCW2(idx){clickFx();checkStreak();var cw=CXL[idx];var cnt=getCwCount(cw.id);var xpBase=getCwXp(cnt);S.cwCount[cw.id]=(cnt||0)+1;var got=gainXp(xpBase);addLog('参悟','悟 第'+cw.num+'则('+cw.tag+') 第'+S.cwCount[cw.id]+'遍 +'+got+'灵力');toast('📖 +'+got+'灵力 · 第'+S.cwCount[cw.id]+'遍');openCW(idx)}
 
 // ===== 除妖 =====
 function renderCY(){var m=getMult();var h='<div class="topbar"><button class="tbtn" onclick="go(\'profile\')">🧘 我的</button><div style="font-size:14px;font-weight:700">除妖试炼</div><button class="tbtn" onclick="go(\'daoshi\')">📜 道史</button></div><div style="font-size:11px;color:var(--t3);margin-bottom:14px">高难度心性试炼，完成获丰厚灵力降魔气</div>';CHAL.forEach(function(c,i){var dn=S.doneChl.indexOf(c[0])>=0;h+='<div class="card fade" style="'+(dn?'opacity:.3;pointer-events:none':'')+'"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><span style="font-size:18px">'+c[1]+'</span><div><div style="font-size:13px;font-weight:600">'+c[2]+'</div><div style="font-size:9px;color:var(--t3)">'+c[6]+'</div></div>'+(dn?'<span style="margin-left:auto;font-size:9px;color:var(--jade);font-weight:700">已斩✓</span>':'')+'</div><div style="font-size:11px;color:var(--t2);line-height:1.5;margin-bottom:6px">'+c[3]+'</div><div style="display:flex;gap:10px;font-size:10px"><span style="color:var(--jade);background:rgba(74,158,117,.08);padding:2px 6px;border-radius:6px">+'+Math.round(c[4]*m)+'灵力</span><span style="color:var(--gold);background:rgba(184,150,60,.08);padding:2px 6px;border-radius:6px">魔气'+c[5]+'%</span></div>'+(dn?'':'<button class="btn bg" style="margin-top:8px;font-size:12px;padding:9px 18px" onclick="startChl('+i+')">完成此试炼</button>')+'</div>'});document.getElementById('pg_chuyao').innerHTML=h}
-function startChl(i){var c=CHAL[i];if(S.doneChl.indexOf(c[0])>=0)return;confirm2('除妖：'+c[2],c[3]+'\n\n确认已完成此试炼？',function(){S.doneChl.push(c[0]);var got=gainXp(c[4]);S.demon=Math.max(0,S.demon+c[5]);S.demonTs=Date.now();addLog('除妖','斩「'+c[2]+'」+'+got+'灵力 魔气'+c[5]+'%','jade');toast('🗡 '+c[2]+' +'+got+'灵力');renderCY()})}
+function startChl(i){var c=CHAL[i];if(S.doneChl.indexOf(c[0])>=0)return;confirm2('除妖：'+c[2],c[3]+'\n\n确认已完成此试炼？',function(){checkStreak();S.doneChl.push(c[0]);var got=gainXp(c[4]);S.demon=Math.max(0,S.demon+c[5]);S.demonTs=Date.now();addLog('除妖','斩「'+c[2]+'」+'+got+'灵力 魔气'+c[5]+'%','jade');toast('🗡 '+c[2]+' +'+got+'灵力');renderCY()})}
 
 // ===== 我的 =====
 function renderPF(){var lv=getLvl(S.xp),r=RM[lv.ri],mp=Math.round(getMult()*100);var totalCw=0;Object.keys(S.cwCount).forEach(function(k){totalCw+=S.cwCount[k]});var h='<div class="topbar"><button class="tbtn" onclick="goBack()">← 返回</button><div style="font-size:14px;font-weight:700">我的修行</div><div style="width:50px"></div></div><div class="realm" style="'+(lv.ri>=2?'animation:glow 3s ease infinite':'')+'"><div style="font-size:26px;font-weight:900;letter-spacing:3px;color:var(--jade);font-family:Ma Shan Zheng,cursive">'+(lv.max?'元婴大圆满':r.n)+'</div><div style="font-size:12px;color:var(--t2);margin-top:2px">'+(lv.max?'圆满':r.ln(lv.li))+'</div></div><div class="card">';var rows=[['境界',lv.max?'元婴大圆满':r.n+r.ln(lv.li),'var(--jade)'],['总灵力',S.xp,''],['当前层',lv.max?'圆满':lv.c+'/'+lv.n,''],['魔气值',Math.round(S.demon)+'%','var(--red)'],['灵力倍率',mp+'%',mp<100?'var(--red)':'var(--jade)'],['连续修行',S.streak+'天',''],['累计功法',S.total+'次',''],['参悟遍数',totalCw+'遍','var(--gold)'],['今日完成',S.done.length+'/'+TECH.length,'']];rows.forEach(function(r){h+='<div class="prow"><span style="font-size:12px;color:var(--t2)">'+r[0]+'</span><span style="font-size:13px;font-weight:700;'+(r[2]?'color:'+r[2]:'')+'">'+r[1]+'</span></div>'});h+='</div>';
@@ -1255,7 +1258,7 @@ function togChip(el,g,radio){clickFx();var c=document.getElementById('qlc'+g);if
 function subQL(n){var tech=TECH[curMod],step=tech.steps[curStep];var hasInput=false;var parts=[];for(var i=0;i<n;i++){var chips=document.querySelectorAll('#qlc'+i+' .tag-btn.on');var fj=document.getElementById('qlf'+i);var vals=Array.from(chips).map(function(b){return b.dataset.val}).join('/');if(fj&&fj.value.trim())vals=(vals?vals+'/':'')+fj.value.trim();if(vals){hasInput=true;parts.push(step.items[i].q.replace(/[？?]/,'')+':'+vals)}}if(!hasInput){toast('请至少选择或填写一项');return}addLog('修炼',tech.nm+'·'+step.l+(parts.length?' ['+parts.join('；')+']':''));nxt()}
 function subSc(){addLog('修炼','省察评分');nxt()}
 function nxt(){stopAll();var tech=TECH[curMod];if(curStep<tech.steps.length-1){curStep++;renderMod()}else compMod()}
-function compMod(){stopAll();stopA();var tech=TECH[curMod];var cnt=S.modCnt[tech.id]||0;var decay=Math.pow(0.6,cnt);var xpBase=Math.max(1,Math.round(tech.xp*decay));var isFirst=S.done.indexOf(tech.id)<0;if(isFirst){S.done.push(tech.id);if(S.done.length===1&&S.lastDate!==td())S.streak++}S.modCnt[tech.id]=cnt+1;S.total++;var got=gainXp(xpBase);S.demon=Math.max(0,S.demon-(isFirst?3:1));S.demonTs=Date.now();addLog('修炼','完成「'+tech.nm+'」'+(cnt>0?'第'+(cnt+1)+'遍':'')+' +'+got+'灵力');if(isFirst&&S.done.length===TECH.length){var b=gainXp(20);S.demon=Math.max(0,S.demon-10);addLog('修炼','日修圆满 +'+b+'灵力 魔气-10%','jade')}save();toast('✓ '+tech.nm+(cnt>0?' ×'+(cnt+1):'')+' +'+got+'灵力');exitMod()}
+function compMod(){stopAll();stopA();var tech=TECH[curMod];var cnt=S.modCnt[tech.id]||0;var decay=Math.pow(0.6,cnt);var xpBase=Math.max(1,Math.round(tech.xp*decay));var isFirst=S.done.indexOf(tech.id)<0;if(isFirst){S.done.push(tech.id);checkStreak()}S.modCnt[tech.id]=cnt+1;S.total++;var got=gainXp(xpBase);S.demon=Math.max(0,S.demon-(isFirst?3:1));S.demonTs=Date.now();addLog('修炼','完成「'+tech.nm+'」'+(cnt>0?'第'+(cnt+1)+'遍':'')+' +'+got+'灵力');if(isFirst&&S.done.length===TECH.length){var b=gainXp(20);S.demon=Math.max(0,S.demon-10);addLog('修炼','日修圆满 +'+b+'灵力 魔气-10%','jade')}save();toast('✓ '+tech.nm+(cnt>0?' ×'+(cnt+1):'')+' +'+got+'灵力');exitMod()}
 
 // Save management
 function exportSave(){var data=localStorage.getItem('xz7');if(!data){toast('无存档数据');return}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(data).then(function(){toast('✓ 存档已复制到剪贴板')}).catch(function(){prompt('复制以下存档数据：',data)})}else{prompt('复制以下存档数据：',data)}}
